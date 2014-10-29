@@ -12,7 +12,8 @@ shinyUI(pageWithSidebar(
     
   mainPanel(
     tabsetPanel(
-      tabPanel('Simulation', plotOutput('simulation'), textOutput('text')),
+      tabPanel('Simulation',          plotOutput('simulation'),  textOutput('text')),
+      tabPanel('Inter-arrival times', plotOutput('interarrival'), textOutput('text')),
       tabPanel('Help', includeMarkdown('help.md'))
     )
   )
