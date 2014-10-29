@@ -7,7 +7,7 @@ shinyUI(pageWithSidebar(
   
   sidebarPanel(
     #style="min-width:235px;max-width:275px",
-    numericInput('rate', 'Rate (r)', value=1),
+    numericInput('rate', 'Rate (R)', value=1),
     numericInput('t', 'End time for simulation (T)', value=100),
     numericInput('n_sims', 'Number of simulations (N)', value=5)#,
     #submitButton('Simulate.')
