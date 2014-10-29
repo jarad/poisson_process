@@ -7,7 +7,8 @@ shinyUI(pageWithSidebar(
   
   sidebarPanel(
     #style="min-width:235px;max-width:275px",
-    numericInput('rate', 'Rate', value=1)
+    numericInput('rate', 'Rate', value=1),
+    numericInput('t', 'End time for simulation', value=1)
   ),
     
   mainPanel(
