@@ -17,7 +17,7 @@ shinyUI(pageWithSidebar(
     tabsetPanel(
       tabPanel('Simulation',          plotOutput('simulation')),
       tabPanel('Inter-arrival times', 
-               checkboxInput('combine_sims', 'Combine interarrival times across simulations?', value=FALSE),
+               checkboxInput('combine_sims', 'Combine inter-arrival times across simulations?', value=FALSE),
                plotOutput('interarrival')),
       tabPanel('Help', includeMarkdown('help.md'))
     )
