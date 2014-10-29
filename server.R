@@ -28,18 +28,15 @@ shinyServer(function(input,output) {
     })
     
     if (input$combine_sims) {
-      g = ggplot(o, aes(x=interarrival_times)) + 
-        geom_histogram(aes(y = ..density..)) +
-        stat_function(fun=dexp, color="red", arg = list(rate=input$rate)) +
-        scale_x_continuous(name="Inter-arrival times") +
-        scale_y_continuous(name="Proportion (count divided by total number)")
+      g = ggplot(o, aes(x=interarrival_times)) 
     } else {
-      g = ggplot(o, aes(x=interarrival_times)) + facet_wrap(~Simulation) + 
-        geom_histogram(aes(y = ..density..)) +
-        stat_function(fun=dexp, color="red", arg = list(rate=input$rate)) +
-        scale_x_continuous(name="Inter-arrival times") +
-        scale_y_continuous(name="Proportion (count divided by total number)")
+      g = ggplot(o, aes(x=interarrival_times)) + facet_wrap(~Simulation) 
     }
+    g = g + 
+      geom_histogram(aes(y = ..density..)) +
+      stat_function(fun=dexp, color="red", arg = list(rate=input$rate)) +
+      scale_x_continuous(name="Inter-arrival times") +
+      scale_y_continuous(name="Proportion (count divided by total number)")
     print(g)
   })
 })
