@@ -1,18 +1,45 @@
 library(shiny)
+library(plyr)
+library(scales)
 library(ggplot2)
 
 shinyServer(function(input,output) {
   d <- reactive({
-    totalCount = rpois(1, input$rate * input$t)
-    times = sort(runif(totalCount, 0, input$t))
-    data.frame(times=times, count=1:totalCount)
+    o = rdply(input$n_sims, {
+      totalCount = rpois(1, input$rate * input$t)
+      times = sort(runif(totalCount, 0, input$t))
+      data.frame(times=c(0,times,input$t), count=c(0:totalCount,totalCount))
+    })
+    o$Simulation = factor(o$.n)
+    o
   })
   
   output$simulation <- renderPlot({
-    g = ggplot(d(), aes(x=times, y=count)) + geom_step()
+    g = ggplot(d(), aes(x=times, y=count, color=Simulation)) + 
+      geom_step() +
+      scale_x_continuous(name="Time", breaks=pretty_breaks()) + 
+      scale_y_continuous(name="Cumulative count", breaks=pretty_breaks())
+    print(g)
   })
   
   output$interarrival <- renderPlot({
-    g = ggplot(d(), aes(x=times)) + geom_histogram()
+    o = ddply(d(), .(Simulation), function(x) {
+      data.frame(interarrival_times=diff(x$times))
+    })
+    
+    if (input$combine_sims) {
+      g = ggplot(o, aes(x=interarrival_times)) + 
+        geom_histogram(aes(y = ..density..)) +
+        stat_function(fun=dexp, color="red", arg = list(rate=input$rate)) +
+        scale_x_continuous(name="Interarrival times") +
+        scale_y_continuous(name="Proportion (count divided by total number)")
+    } else {
+      g = ggplot(o, aes(x=interarrival_times)) + facet_wrap(~Simulation) + 
+        geom_histogram(aes(y = ..density..)) +
+        stat_function(fun=dexp, color="red", arg = list(rate=input$rate)) +
+        scale_x_continuous(name="Interarrival times") +
+        scale_y_continuous(name="Proportion (count divided by total number)")
+    }
+    print(g)
   })
 })
