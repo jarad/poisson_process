@@ -31,13 +31,13 @@ shinyServer(function(input,output) {
       g = ggplot(o, aes(x=interarrival_times)) + 
         geom_histogram(aes(y = ..density..)) +
         stat_function(fun=dexp, color="red", arg = list(rate=input$rate)) +
-        scale_x_continuous(name="Interarrival times") +
+        scale_x_continuous(name="Inter-arrival times") +
         scale_y_continuous(name="Proportion (count divided by total number)")
     } else {
       g = ggplot(o, aes(x=interarrival_times)) + facet_wrap(~Simulation) + 
         geom_histogram(aes(y = ..density..)) +
         stat_function(fun=dexp, color="red", arg = list(rate=input$rate)) +
-        scale_x_continuous(name="Interarrival times") +
+        scale_x_continuous(name="Inter-arrival times") +
         scale_y_continuous(name="Proportion (count divided by total number)")
     }
     print(g)
