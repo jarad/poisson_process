@@ -34,7 +34,7 @@ shinyServer(function(input,output) {
     }
     g = g + 
       geom_histogram(aes(y = ..density..)) +
-      stat_function(fun=dexp, color="red", arg = list(rate=input$rate)) +
+      stat_function(fun=dexp, color="red", args = list(rate=input$rate)) +
       scale_x_continuous(name="Inter-arrival times") +
       scale_y_continuous(name="Proportion (count divided by total number)")
     print(g)
